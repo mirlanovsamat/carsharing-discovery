@@ -20,11 +20,12 @@ export class RentCarService {
       rentstart.setDate(rentstart.getDate() - 3)
       rentfinish.setDate(rentfinish.getDate() + 3)
       if(rentfinish < new Date(start) || rentstart > new Date(finish)){
-        return 'Машина доступна'
+        return true
       }else {
         throw new HttpException('Машина недоступна', HttpStatus.BAD_REQUEST)
       }
     }) 
+    return 'Машина доступна'
   }
 
   async rentCar(query){
