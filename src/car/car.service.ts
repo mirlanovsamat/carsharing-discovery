@@ -1,20 +1,23 @@
+import { CarRepository } from './car.repository';
 import { Injectable } from '@nestjs/common';
-import pool from 'src/configs/database';
+
 
 @Injectable()
 export class CarService {
 
+  constructor(
+    private readonly carRepository: CarRepository
+  ){}
+
   async create(createCarDto) {
-    await pool.query(`INSERT INTO cars (brand, gosnumber) VALUES($1, $2)`, [createCarDto.brand, createCarDto.gosnumber]);
+    return await this.carRepository.create(createCarDto)
   }
  
   async findAll() {
-    const result = await pool.query(`SELECT * FROM cars`);
-    return result.rows
+    return this.carRepository.findAll()
   }
 
   async findOneById(id: number) {
-    const result = await pool.query(`SELECT * FROM cars WHERE id=${id}`);
-    return result.rows[0]
+    return this.carRepository.findOneById(id)
   }
 }
